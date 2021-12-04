@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
 
-function App() {
+const Child = ({ counter, onSet }) => {
+  const [childCounter, setChildCounter] = useState(counter)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div>
+      child component
+      <div>
+        parent counter on child {counter}{' '}
+        <button onClick={() => onSet((state) => ++state)}>
+          click parent on child
+        </button>
+      </div>
+      <div>
+        child counter: {childCounter}{' '}
+        <button
+          onClick={() => {
+            setChildCounter((state) => ++state)
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          click child
+        </button>
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+const Parent = () => {
+  const [parentCounter, setParentCounter] = useState(1)
+
+  return (
+    <>
+      <div>
+        <div>parent component</div>
+        parent counter: {parentCounter}{' '}
+        <button
+          onClick={() => {
+            setParentCounter((state) => ++state)
+          }}
+        >
+          click parent
+        </button>
+      </div>
+      <br />
+      <br />
+      <br />
+      <Child counter={parentCounter} onSet={setParentCounter} />
+    </>
+  )
+}
+
+export default Parent
